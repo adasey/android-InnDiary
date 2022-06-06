@@ -24,7 +24,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.facebook.AccessToken;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -34,7 +33,6 @@ import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.EmailAuthProvider;
-import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthSettings;
 import com.google.firebase.auth.FirebaseUser;
@@ -478,14 +476,6 @@ public class MainActivity extends AppCompatActivity {
         // [START auth_google_cred]
         AuthCredential credential = GoogleAuthProvider.getCredential(googleIdToken, null);
         // [END auth_google_cred]
-    }
-
-    
-    public void getFbCredentials() {
-        AccessToken token = AccessToken.getCurrentAccessToken();
-        // [START auth_fb_cred]
-        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
-        // [END auth_fb_cred]
     }
 
     public void getEmailCredentials() {
