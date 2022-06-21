@@ -6,7 +6,6 @@ import androidx.room.Insert;
 import androidx.room.Query;
 
 import com.inndiary.roomtest.entity.Diary;
-
 import java.util.List;
 
 @Dao

@@ -8,21 +8,18 @@ public class Diary {
     @PrimaryKey(autoGenerate = true)
     private int seq;
 
-    public int getSeq() {
-        return seq;
-    }
 
-    public void setSeq(int seq) {
-        this.seq = seq;
-    }
 
     private String date;
-
+    private int weather;
     private String title;
     private String content;
 
-    public Diary(String date, String title, String content) {
+
+
+    public Diary(String date,int weather, String title, String content) {
         this.date = date;
+        this.weather = weather;
         this.title = title;
         this.content = content;
     }
@@ -32,9 +29,18 @@ public class Diary {
         return "Diary{" +
                 "seq=" + seq +
                 ", date='" + date + '\'' +
+                ", weather=" + weather +
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
                 '}';
+    }
+
+    public int getSeq() {
+        return seq;
+    }
+
+    public void setSeq(int seq) {
+        this.seq = seq;
     }
 
     public String getDate() {
@@ -43,6 +49,14 @@ public class Diary {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public int getWeather() {
+        return weather;
+    }
+
+    public void setWeather(int weather) {
+        this.weather = weather;
     }
 
     public String getTitle() {
