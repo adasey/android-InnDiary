@@ -6,6 +6,7 @@ import androidx.room.Room;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -59,5 +60,23 @@ public class MainActivity2 extends AppCompatActivity {
 
         content_text = findViewById(R.id.diary_content);
         content_text.setText(diary.getContent());
+
+        findViewById(R.id.btn_delete).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                diaryRepository.delete(diary);
+                startActivity(new Intent(MainActivity2.this,MainActivity.class));
+                finish();
+            }
+        });
+
+        findViewById(R.id.btn_update).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity2.this,MainActivity3.class);
+                intent.putExtra("seq",diary.getSeq());
+                startActivity(intent);
+            }
+        });
     }
 }
