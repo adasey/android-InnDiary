@@ -3,6 +3,8 @@ package com.inndiary.roomtest;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
+import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -29,9 +31,11 @@ public class MainActivity extends AppCompatActivity {
     private long mNow;
     private Date mDate;
     private SimpleDateFormat mFormat;
+
     // listView용
     private DiaryListAdapter adapter;
     private List<Diary> listDiary;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,7 +71,10 @@ public class MainActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(MainActivity.this, listDiary.get(i).toString(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this, listDiary.get(i).toString(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MainActivity.this,MainActivity2.class);
+                intent.putExtra("seq",listDiary.get(i).getSeq());
+                startActivity(intent);
             }
         });
     }
