@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/MainFragment"
+    android:id="@+id/nav_main">
+
+    <fragment
+        android:id="@+id/MainFragment"
+        android:name="induk.inn.MainActivity"
+        tools:layout="@layout/activity_main">
+
+        <action
+            android:id="@+id/action_login"
+            app:destination="@id/LoginServiceFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/LoginServiceFragment"
+        android:name="induk.inn.login.LoginServiceFragment"
+        tools:layout="@layout/fragment_login"/>
+
+</navigation>
