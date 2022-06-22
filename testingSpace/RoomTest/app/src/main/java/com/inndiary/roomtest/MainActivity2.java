@@ -65,7 +65,6 @@ public class MainActivity2 extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 diaryRepository.delete(diary);
-                startActivity(new Intent(MainActivity2.this,MainActivity.class));
                 finish();
             }
         });

@@ -1,5 +1,6 @@
 package com.inndiary.roomtest;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
@@ -7,6 +8,9 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -50,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         // diary 객체용 setting ----
         mNow = System.currentTimeMillis();
         mDate = new Date(mNow);
-        mFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        mFormat = new SimpleDateFormat("yyyy-MM-dd");
         String date = mFormat.format(mDate);
         // 생성
         /*for (int i = 0;i<10;i++){
@@ -61,21 +65,47 @@ public class MainActivity extends AppCompatActivity {
             Log.d(TAG, d.toString());
         }*/
         //
+
+
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         listDiary = diaryRepository.findAll();
         adapter = new DiaryListAdapter(listDiary);
         //뷰
         ListView listView = findViewById(R.id.list_view);
-        listView.setAdapter(adapter);// 리스트 뷰이외에도 gridview 도 어댑터 적용가능
-
+        listView.setAdapter(adapter);
         //클릭
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 //Toast.makeText(MainActivity.this, listDiary.get(i).toString(), Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(MainActivity.this,MainActivity2.class);
-                intent.putExtra("seq",listDiary.get(i).getSeq());
+                Intent intent = new Intent(MainActivity.this, MainActivity2.class);
+                intent.putExtra("seq", listDiary.get(i).getSeq());
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main_01,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.create_opt:
+                Intent intent = new Intent(MainActivity.this,MainActivity3.class);
+                startActivity(intent);
+                return true;
+            default:
+                return false;
+        }
     }
 }
