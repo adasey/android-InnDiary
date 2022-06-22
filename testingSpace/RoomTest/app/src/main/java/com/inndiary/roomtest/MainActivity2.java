@@ -5,7 +5,6 @@ import androidx.room.Room;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,8 +12,6 @@ import android.widget.TextView;
 import com.inndiary.roomtest.db.DiaryDatabase;
 import com.inndiary.roomtest.entity.Diary;
 import com.inndiary.roomtest.repository.DiaryRepository;
-
-import java.util.List;
 
 public class MainActivity2 extends AppCompatActivity {
     //Log용 tag
@@ -27,6 +24,7 @@ public class MainActivity2 extends AppCompatActivity {
     private ImageView weather_image;
     private int[] mWeatherImageArr;
     private TextView title_text;
+    private TextView date_text;
     private TextView content_text;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +41,6 @@ public class MainActivity2 extends AppCompatActivity {
                 .build();
         diaryRepository = db.diaryRepository();
 
-        diary = diaryRepository.findById(seq);
-
         mWeatherImageArr = new int[5];
         mWeatherImageArr[0] = R.drawable.sunny;
         mWeatherImageArr[1] = R.drawable.cloudy;
@@ -53,17 +49,14 @@ public class MainActivity2 extends AppCompatActivity {
         mWeatherImageArr[4] = R.drawable.blizzard;
 
         weather_image = findViewById(R.id.weather_img);
-        weather_image.setImageResource(mWeatherImageArr[diary.getWeather()]);
-
         title_text = findViewById(R.id.diary_title);
-        title_text.setText(diary.getTitle());
-
+        date_text = findViewById(R.id.diary_date);
         content_text = findViewById(R.id.diary_content);
-        content_text.setText(diary.getContent());
 
         findViewById(R.id.btn_delete).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 diaryRepository.delete(diary);
                 finish();
             }
@@ -77,5 +70,15 @@ public class MainActivity2 extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        diary = diaryRepository.findById(seq);
+        weather_image.setImageResource(mWeatherImageArr[diary.getWeather()]);
+        title_text.setText(diary.getTitle());
+        date_text.setText(diary.getDate());
+        content_text.setText(diary.getContent());
     }
 }

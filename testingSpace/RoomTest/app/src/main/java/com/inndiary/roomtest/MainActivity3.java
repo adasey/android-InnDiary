@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -27,6 +28,8 @@ import java.util.TimeZone;
 public class MainActivity3 extends AppCompatActivity {
     // db용
     private DiaryRepository diaryRepository;
+    private Diary mDiary;
+    private int seq;
     private TextView title_text;
     private TextView content_text;
     // date 용
@@ -59,8 +62,6 @@ public class MainActivity3 extends AppCompatActivity {
         mFormat = new SimpleDateFormat("yyyy-MM-dd");
         String date = mFormat.format(mDate);
         date_text.setText(date);
-
-
         // spinner setting ----------------------------
         spinner = (Spinner) findViewById(R.id.weather_spin);
         // Create an ArrayAdapter using the string array and a default spinner layout
@@ -71,20 +72,35 @@ public class MainActivity3 extends AppCompatActivity {
         // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
 
+        // Update 일경우
+        Intent intent = getIntent();
+        seq = intent.getIntExtra("seq",-1);
+        if(seq != -1) {
+            TextView statusText = (TextView)findViewById(R.id.status);
+            statusText.setText("UPDATE");
+            mDiary = diaryRepository.findById(seq);
+            title_text.setText(mDiary.getTitle());
+            date_text.setText(mDiary.getDate());
+            spinner.setSelection(mDiary.getWeather());
+            content_text.setText(mDiary.getContent());
+        }
+
+
+
         // btn click event ----------------------------
         findViewById(R.id.date_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Calendar c = Calendar.getInstance(TimeZone.getTimeZone("Asia/Seoul"), Locale.KOREA);
-                int mYear = c.get(Calendar.YEAR);
-                int mMonth = c.get(Calendar.MONTH);
-                int mDay = c.get(Calendar.DAY_OF_MONTH);
+                String mDate = date_text.getText().toString();
+                int mYear = Integer.parseInt(mDate.substring(0,4));
+                int mMonth = Integer.parseInt(mDate.substring(5,7))-1;
+                int mDay = Integer.parseInt(mDate.substring(8));
 
                 DatePickerDialog datePickerDialog = new DatePickerDialog(view.getContext(),
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-                                date_text.setText(i + "-" + (i1+1) + "-" + i2);
+                                date_text.setText(i + "-" + String.format ("%02d",i1+1) + "-" + String.format ("%02d",i2));
                             }
                         }, mYear, mMonth, mDay);
                 datePickerDialog.show();
@@ -99,9 +115,18 @@ public class MainActivity3 extends AppCompatActivity {
         findViewById(R.id.ok_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                diaryRepository.insert(new Diary(date_text.getText().toString()
-                        ,spinner.getSelectedItemPosition()
-                        ,title_text.getText().toString(),content_text.getText().toString()));
+                if(seq != -1) {
+                    //Toast.makeText(view.getContext(),String.valueOf(mDiary.getSeq()),Toast.LENGTH_SHORT).show();
+                    mDiary.setTitle(title_text.getText().toString());
+                    mDiary.setDate(date_text.getText().toString());
+                    mDiary.setWeather(spinner.getSelectedItemPosition());
+                    mDiary.setContent(content_text.getText().toString());
+                    diaryRepository.update(mDiary);
+                } else {
+                    diaryRepository.insert(new Diary(date_text.getText().toString()
+                            ,spinner.getSelectedItemPosition()
+                            ,title_text.getText().toString(),content_text.getText().toString()));
+                }
                 finish();
             }
         });

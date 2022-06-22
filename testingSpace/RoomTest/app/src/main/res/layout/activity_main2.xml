@@ -36,7 +36,27 @@
     </LinearLayout>
     <TextView
         android:layout_margin="15dp"
-        android:text="content"
+        android:text="Date"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/diary_date"
+            android:layout_margin="15dp"
+            tools:text="date"
+            android:textSize="20sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+    <TextView
+        android:layout_margin="15dp"
+        android:text="Content"
         android:textColor="@color/black"
         android:textSize="30sp"
         android:layout_width="wrap_content"
@@ -56,7 +76,7 @@
     </LinearLayout>
     <TextView
         android:layout_margin="15dp"
-        android:text="buttons"
+        android:text="Buttons"
         android:textColor="@color/black"
         android:textSize="30sp"
         android:layout_width="wrap_content"

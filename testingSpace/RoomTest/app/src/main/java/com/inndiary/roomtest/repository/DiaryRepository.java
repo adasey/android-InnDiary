@@ -4,6 +4,7 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.inndiary.roomtest.entity.Diary;
 import java.util.List;
@@ -21,4 +22,7 @@ public interface DiaryRepository {
 
     @Delete
     void delete(Diary diary);
+
+    @Update
+    void update(Diary diary);
 }
