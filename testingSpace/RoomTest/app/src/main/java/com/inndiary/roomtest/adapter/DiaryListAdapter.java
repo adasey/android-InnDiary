@@ -16,6 +16,7 @@ import java.util.List;
 public class DiaryListAdapter  extends BaseAdapter {
     private List<Diary> mData;
     private int[] mWeatherImageArr;
+    private int[] mStatusImageArr;
     public DiaryListAdapter(List<Diary> data) {
         this.mData = data;
 
@@ -25,7 +26,12 @@ public class DiaryListAdapter  extends BaseAdapter {
         mWeatherImageArr[2] = R.drawable.rainy;
         mWeatherImageArr[3] = R.drawable.snow;
         mWeatherImageArr[4] = R.drawable.blizzard;
-     }
+
+        this.mStatusImageArr = new int[3];
+        mStatusImageArr[0] = R.drawable.happy;
+        mStatusImageArr[1] = R.drawable.soso;
+        mStatusImageArr[2] = R.drawable.bad;
+    }
 
     @Override
     public int getCount() {
@@ -54,10 +60,13 @@ public class DiaryListAdapter  extends BaseAdapter {
             viewHolder = new ViewHolder();
             view = LayoutInflater.from(viewGroup.getContext())
                     .inflate(R.layout.listview_format, viewGroup, false);
-            ImageView imageView = view.findViewById(R.id.weather_img);
+            ImageView weatherImg = view.findViewById(R.id.weather_img);
+            ImageView statusImg = view.findViewById(R.id.status_img);
+
             TextView titleText = view.findViewById(R.id.diary_title);
             TextView dateText = view.findViewById(R.id.diary_date);
-            viewHolder.imageView = imageView;
+            viewHolder.weatherImg = weatherImg;
+            viewHolder.statusImg = statusImg;
             viewHolder.titleText = titleText;
             viewHolder.dateText = dateText;
 
@@ -72,7 +81,8 @@ public class DiaryListAdapter  extends BaseAdapter {
         // => 매번 find하기때문에 필요이상의 자원을 소모함
 
         Diary diary = mData.get(i);
-        viewHolder.imageView.setImageResource(mWeatherImageArr[diary.getWeather()]);
+        viewHolder.weatherImg.setImageResource(mWeatherImageArr[diary.getWeather()]);
+        viewHolder.statusImg.setImageResource(mStatusImageArr[diary.getStatus()]);
         viewHolder.titleText.setText(diary.getTitle());
         viewHolder.dateText.setText(diary.getDate());
 
@@ -80,7 +90,9 @@ public class DiaryListAdapter  extends BaseAdapter {
     }
 
     static class ViewHolder{
-        ImageView imageView;
+        ImageView weatherImg;
+        ImageView statusImg;
+
         TextView titleText;
         TextView dateText;
     }

@@ -22,7 +22,9 @@ public class MainActivity2 extends AppCompatActivity {
     private Diary diary;
 
     private ImageView weather_image;
+    private ImageView status_image;
     private int[] mWeatherImageArr;
+    private int[] mStatusImageArr;
     private TextView title_text;
     private TextView date_text;
     private TextView content_text;
@@ -48,7 +50,13 @@ public class MainActivity2 extends AppCompatActivity {
         mWeatherImageArr[3] = R.drawable.snow;
         mWeatherImageArr[4] = R.drawable.blizzard;
 
+        mStatusImageArr = new int[3];
+        mStatusImageArr[0] = R.drawable.happy;
+        mStatusImageArr[1] = R.drawable.soso;
+        mStatusImageArr[2] = R.drawable.bad;
+
         weather_image = findViewById(R.id.weather_img);
+        status_image = findViewById(R.id.status_img);
         title_text = findViewById(R.id.diary_title);
         date_text = findViewById(R.id.diary_date);
         content_text = findViewById(R.id.diary_content);
@@ -77,6 +85,7 @@ public class MainActivity2 extends AppCompatActivity {
         super.onStart();
         diary = diaryRepository.findById(seq);
         weather_image.setImageResource(mWeatherImageArr[diary.getWeather()]);
+        status_image.setImageResource(mStatusImageArr[diary.getStatus()]);
         title_text.setText(diary.getTitle());
         date_text.setText(diary.getDate());
         content_text.setText(diary.getContent());

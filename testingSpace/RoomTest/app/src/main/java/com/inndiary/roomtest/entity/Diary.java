@@ -12,16 +12,18 @@ public class Diary {
 
     private String date;
     private int weather;
+    private int status;
     private String title;
     private String content;
 
 
 
-    public Diary(String date,int weather, String title, String content) {
+    public Diary(String date,int weather, String title, String content,int status) {
         this.date = date;
         this.weather = weather;
         this.title = title;
         this.content = content;
+        this.status = status;
     }
 
     @Override
@@ -30,6 +32,7 @@ public class Diary {
                 "seq=" + seq +
                 ", date='" + date + '\'' +
                 ", weather=" + weather +
+                ", status=" + status +
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
                 '}';
@@ -73,5 +76,13 @@ public class Diary {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

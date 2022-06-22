@@ -37,8 +37,9 @@ public class MainActivity3 extends AppCompatActivity {
     private Date mDate;
     private SimpleDateFormat mFormat;
     private TextView date_text;
-    // weather spinner
-    private Spinner spinner;
+    // weather & status spinner
+    private Spinner weather_spin;
+    private Spinner status_spin;
 
 
     @Override
@@ -48,7 +49,7 @@ public class MainActivity3 extends AppCompatActivity {
 
         // init  ----------------------------
         // db
-        DiaryDatabase db= Room.databaseBuilder(getApplicationContext(),DiaryDatabase.class,"db-diary")
+        DiaryDatabase db = Room.databaseBuilder(getApplicationContext(), DiaryDatabase.class, "db-diary")
                 .fallbackToDestructiveMigration() //스키마 버전 변경 가능
                 .allowMainThreadQueries() // 메인 스레드에서 DB에 IO를 가능하게 함
                 .build();
@@ -63,28 +64,34 @@ public class MainActivity3 extends AppCompatActivity {
         String date = mFormat.format(mDate);
         date_text.setText(date);
         // spinner setting ----------------------------
-        spinner = (Spinner) findViewById(R.id.weather_spin);
+        weather_spin = (Spinner) findViewById(R.id.weather_spin);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.weather_array, android.R.layout.simple_spinner_item);
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
-        spinner.setAdapter(adapter);
+        weather_spin.setAdapter(adapter);
+
+        status_spin = (Spinner) findViewById(R.id.status_spin);
+        adapter = ArrayAdapter.createFromResource(this,
+                R.array.status_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        status_spin.setAdapter(adapter);
 
         // Update 일경우
         Intent intent = getIntent();
-        seq = intent.getIntExtra("seq",-1);
-        if(seq != -1) {
-            TextView statusText = (TextView)findViewById(R.id.status);
+        seq = intent.getIntExtra("seq", -1);
+        if (seq != -1) {
+            TextView statusText = (TextView) findViewById(R.id.status);
             statusText.setText("UPDATE");
             mDiary = diaryRepository.findById(seq);
             title_text.setText(mDiary.getTitle());
             date_text.setText(mDiary.getDate());
-            spinner.setSelection(mDiary.getWeather());
+            weather_spin.setSelection(mDiary.getWeather());
+            status_spin.setSelection(mDiary.getStatus());
             content_text.setText(mDiary.getContent());
         }
-
 
 
         // btn click event ----------------------------
@@ -92,15 +99,15 @@ public class MainActivity3 extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String mDate = date_text.getText().toString();
-                int mYear = Integer.parseInt(mDate.substring(0,4));
-                int mMonth = Integer.parseInt(mDate.substring(5,7))-1;
+                int mYear = Integer.parseInt(mDate.substring(0, 4));
+                int mMonth = Integer.parseInt(mDate.substring(5, 7)) - 1;
                 int mDay = Integer.parseInt(mDate.substring(8));
 
                 DatePickerDialog datePickerDialog = new DatePickerDialog(view.getContext(),
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-                                date_text.setText(i + "-" + String.format ("%02d",i1+1) + "-" + String.format ("%02d",i2));
+                                date_text.setText(i + "-" + String.format("%02d", i1 + 1) + "-" + String.format("%02d", i2));
                             }
                         }, mYear, mMonth, mDay);
                 datePickerDialog.show();
@@ -115,17 +122,19 @@ public class MainActivity3 extends AppCompatActivity {
         findViewById(R.id.ok_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(seq != -1) {
+                if (seq != -1) {
                     //Toast.makeText(view.getContext(),String.valueOf(mDiary.getSeq()),Toast.LENGTH_SHORT).show();
                     mDiary.setTitle(title_text.getText().toString());
                     mDiary.setDate(date_text.getText().toString());
-                    mDiary.setWeather(spinner.getSelectedItemPosition());
+                    mDiary.setWeather(weather_spin.getSelectedItemPosition());
+                    mDiary.setStatus(status_spin.getSelectedItemPosition());
                     mDiary.setContent(content_text.getText().toString());
                     diaryRepository.update(mDiary);
                 } else {
                     diaryRepository.insert(new Diary(date_text.getText().toString()
-                            ,spinner.getSelectedItemPosition()
-                            ,title_text.getText().toString(),content_text.getText().toString()));
+                            , weather_spin.getSelectedItemPosition()
+                            , title_text.getText().toString(), content_text.getText().toString()
+                            , status_spin.getSelectedItemPosition()));
                 }
                 finish();
             }

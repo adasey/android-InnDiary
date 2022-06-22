@@ -7,4 +7,9 @@
         <item>snow</item>
         <item>blizzard</item>
     </string-array>
+    <string-array name="status_array">
+        <item>happy</item>
+        <item>soso</item>
+        <item>bad</item>
+    </string-array>
 </resources>
