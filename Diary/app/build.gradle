@@ -1,6 +1,5 @@
 plugins {
     id 'com.android.application'
-    id 'com.google.gms.google-services'
 }
 
 android {
@@ -33,40 +32,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.4.2'
     implementation 'com.google.android.material:material:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    // navigation 용
-    implementation 'androidx.navigation:navigation-fragment:2.4.2'
-    implementation 'androidx.navigation:navigation-ui:2.4.2'
-
-    // 추가적인 연결
-    implementation 'androidx.vectordrawable:vectordrawable-animated:1.1.0'
-    implementation 'com.google.android.material:material:1.6.1'
-    implementation 'androidx.browser:browser:1.4.0'
-
-    def lifecycle_version = "2.4.1"
-
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
-
-    // firebase 용 의존 연결
-    // This dependency is downloaded from the Google’s Maven repository.
-    // So, make sure you also include that repository in your project's build.gradle file.
-    implementation 'com.google.android.play:asset-delivery:2.0.0'
-    // Import the Firebase BoM (see: https://firebase.google.com/docs/android/learn-more#bom)
-    implementation platform('com.google.firebase:firebase-bom:30.1.0')
-    // Firebase Authentication (Java)
-    implementation 'com.google.firebase:firebase-auth'
-    implementation 'com.google.firebase:firebase-firestore:24.1.2'
-    // Google Identity Services SDK (only required for Auth with Google)
-    implementation 'com.google.android.gms:play-services-auth:20.2.0'
-    // Firebase UI
-    // Used in FirebaseUIActivity.
-    implementation 'com.firebaseui:firebase-ui-auth:8.0.1'
-
-    // for kakao
-    implementation "com.kakao.sdk:v2-user:2.10.0"
-
     testImplementation 'junit:junit:4.13.2'
-
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 }
