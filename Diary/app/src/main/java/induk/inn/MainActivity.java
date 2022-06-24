@@ -11,6 +11,8 @@ import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationBarView;
 
+import induk.inn.list.FragMent1;
+
 public class MainActivity extends AppCompatActivity {
     private FragmentManager fragmentManager;
     private FragMent1 fragMent1;
@@ -34,6 +36,11 @@ public class MainActivity extends AppCompatActivity {
         // 프래그먼트 초기화면
         transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.container, fragMent1).commitAllowingStateLoss();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
 
         // 바텀 메뉴 선택시 화면이동
         NavigationBarView navigationBarView = findViewById(R.id.bottom_navigation);
