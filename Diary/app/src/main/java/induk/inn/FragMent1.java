@@ -35,9 +35,9 @@ public class FragMent1 extends Fragment {
             NoteItem noteItem = new NoteItem();
 
             noteItem.mMoodImage = R.drawable.smile1_48;
-            noteItem.mWeatherImage = R.drawable.weather_icon_1;
+            noteItem.mWeatherImage = R.drawable.weather_1;
+            noteItem.mTitle = "제목" + i;
             noteItem.mContents = "슈퍼성근" + i;
-            noteItem.mLocation = "의정부" + i;
             noteItem.mDate = "1월2일" + i;
 
 
@@ -61,16 +61,14 @@ public class FragMent1 extends Fragment {
                 AddDialog dialog = new AddDialog(context);
                 dialog.setDialogListener(new AddDialog.CustomDialogListener() {
                     @Override
-                    public void onPositiveClicked(String content, String location, String date, int moodImage) {
+                    public void onPositiveClicked(String title, String content, String date, int moodImage,int weatherImage) {
                         NoteItem addData = new NoteItem();
 
                         addData.mMoodImage = moodImage;
                         addData.mContents = content;
-                        addData.mLocation = location;
+                        addData.mTitle = title;
                         addData.mDate = date;
-                        addData.mWeatherImage = R.drawable.weather_icon_1;
-
-                        //addData.mDepartment = department;
+                        addData.mWeatherImage = weatherImage;
 
                         mAdapter.add(0, addData); // 첫번째 인덱스에다가 Student를 넘겨준다.
                     }

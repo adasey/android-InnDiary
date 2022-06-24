@@ -12,11 +12,14 @@ import android.widget.Toast;
 import com.google.android.material.navigation.NavigationBarView;
 
 public class MainActivity extends AppCompatActivity {
-
     private FragmentManager fragmentManager;
     private FragMent1 fragMent1;
     private FragMent2 fragMent2;
     private FragmentTransaction transaction;
+
+    //뒤로가기 두번해서 종료
+    private String mCurrentUrl;
+    private long backBtnTime = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,5 +53,19 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+    }
+
+    // 뒤로가기 두번해서 종료
+    @Override
+    public void onBackPressed() {
+        long curTime = System.currentTimeMillis();
+        long gapTime = curTime - backBtnTime;
+
+        if(0 <= gapTime && 2000 >= gapTime){
+            super.onBackPressed();
+        }else{
+            backBtnTime = curTime;
+            Toast.makeText(this, "한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
+        }
     }
 }

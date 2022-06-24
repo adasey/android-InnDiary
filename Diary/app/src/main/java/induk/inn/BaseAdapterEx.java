@@ -42,8 +42,8 @@ public class BaseAdapterEx extends BaseAdapter {
     class ViewHolder{
         ImageView mMoodImageTv;
         ImageView mWeatherImageTv;
+        TextView mTitleTv;
         TextView mContentsTv;
-        TextView mLocationTv;
         TextView mDateTv;
     }
 
@@ -66,8 +66,9 @@ public class BaseAdapterEx extends BaseAdapter {
 
             viewHolder.mMoodImageTv = (ImageView) itemLayout.findViewById(R.id.moodImageView);
             viewHolder.mWeatherImageTv = (ImageView) itemLayout.findViewById(R.id.weatherImageView);
+            viewHolder.mTitleTv = (TextView) itemLayout.findViewById(R.id.titleTextView);
             viewHolder.mContentsTv = (TextView) itemLayout.findViewById(R.id.contentsTextView);
-            viewHolder.mLocationTv = (TextView) itemLayout.findViewById(R.id.locationTextView);
+
             viewHolder.mDateTv = (TextView) itemLayout.findViewById(R.id.dateTextView);
 
             itemLayout.setTag(viewHolder);
@@ -85,8 +86,8 @@ public class BaseAdapterEx extends BaseAdapter {
         // ====================================================================
         viewHolder.mMoodImageTv.setImageResource(mData.get(position).mMoodImage);
         viewHolder.mWeatherImageTv.setImageResource(mData.get(position).mWeatherImage);
+        viewHolder.mTitleTv.setText(mData.get(position).mTitle);
         viewHolder.mContentsTv.setText(mData.get(position).mContents); // 변수에 데이터를 넣어주고
-        viewHolder.mLocationTv.setText(mData.get(position).mLocation);
         viewHolder.mDateTv.setText(mData.get(position).mDate);
         // ===================================================================
 

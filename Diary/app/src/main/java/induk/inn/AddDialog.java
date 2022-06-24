@@ -7,10 +7,13 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.SeekBar;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,15 +23,19 @@ import java.util.Objects;
 public class AddDialog extends Dialog implements View.OnClickListener{
 
     private EditText contentEt;
-    private EditText locationEt;
+    private EditText titleEt;
 
     private DatePicker dateDp;
     private int mMoodImage = R.drawable.smile3_48;
 
     private Context mContext;
-
     private CustomDialogListener customDialogListener;
 
+    //날씨 스피너
+    private Spinner spinner_weathers;
+    String[] spinnerNames;
+    int[] spinnerImages;
+    int selected_weather = R.drawable.weather_1;
 
     public AddDialog(Context mContext) {
         super(mContext);
@@ -37,7 +44,7 @@ public class AddDialog extends Dialog implements View.OnClickListener{
 
     // 인터페이스 설정
     interface CustomDialogListener{
-        void onPositiveClicked(String content, String location, String date, int moodImage);
+        void onPositiveClicked(String title, String content, String date, int moodImage, int weatherImage);
         void onNegativeClicked();
     }
 
@@ -56,12 +63,61 @@ public class AddDialog extends Dialog implements View.OnClickListener{
 
         // 커스텀 다이얼로그의 각 위젯들을 정의한다.
         contentEt = (EditText) findViewById(R.id.et_content);
-        locationEt = (EditText) findViewById(R.id.et_location);
+        titleEt = (EditText) findViewById(R.id.et_title);
         dateDp = (DatePicker) findViewById(R.id.date_picker);
 
 
-        Button positiveButton = (Button) findViewById(R.id.btn_positive);
-        Button negativeButton = (Button) findViewById(R.id.btn_negative);
+        // 날씨
+        //===========================================================================
+        spinner_weathers = (Spinner)findViewById(R.id.sp_weather);
+
+        // 스피너에 보여줄 문자열과 이미지 목록
+        spinnerNames = new String[]{"맑음", "조금흐림", "흐림", "비", "눈"};
+        spinnerImages = new int[]{R.drawable.weather_1
+                , R.drawable.weather_3
+                , R.drawable.weather_4
+                , R.drawable.weather_5
+                , R.drawable.weather_7
+        };
+
+        // 어댑터와 스피너를 연결
+        WeatherSpinnerAdapter customSpinnerAdapter = new WeatherSpinnerAdapter(mContext, spinnerNames, spinnerImages);
+        spinner_weathers.setAdapter(customSpinnerAdapter);
+
+        // 스피너에서 아이템 선택시 호출
+        spinner_weathers.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                switch (spinner_weathers.getSelectedItemPosition()){
+                    case 0:
+                        selected_weather = R.drawable.weather_1;
+                        break;
+                    case 1:
+                        selected_weather = R.drawable.weather_3;
+                        break;
+                    case 2:
+                        selected_weather = R.drawable.weather_4;
+                        break;
+                    case 3:
+                        selected_weather = R.drawable.weather_5;
+                        break;
+                    case 4:
+                        selected_weather = R.drawable.weather_7;
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+
+
+        });
+        //===========================================================================
+
+        //상태
+        //===========================================================================
         SeekBar seekBar = (SeekBar) findViewById(R.id.seekBar);
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -97,10 +153,16 @@ public class AddDialog extends Dialog implements View.OnClickListener{
                 }
             }
         });
+        //===========================================================================
 
+        //버튼
+        //===========================================================================
+        Button positiveButton = (Button) findViewById(R.id.btn_positive);
+        Button negativeButton = (Button) findViewById(R.id.btn_negative);
         // 버튼 리스너 등록
         positiveButton.setOnClickListener(this);
         negativeButton.setOnClickListener(this);
+        //===========================================================================
 
     }
 
@@ -111,14 +173,15 @@ public class AddDialog extends Dialog implements View.OnClickListener{
             case R.id.btn_positive: // 저장버튼 클릭시
                 // 변수에 EditText 값 저장
                 String content = contentEt.getText().toString();
-                String location = locationEt.getText().toString();
+                String title = titleEt.getText().toString();
                 String date = dateDp.getYear() + "년 " + (dateDp.getMonth()+1) + "월 " + dateDp.getDayOfMonth() + "일";
 
                 // 인터페이스의 함수를 호출하여 변수에 저장된 값들을 Activity로 전달
-                customDialogListener.onPositiveClicked(content, location, date, mMoodImage);
+                customDialogListener.onPositiveClicked(title, content, date, mMoodImage, selected_weather);
                 dismiss();
                 break;
             case R.id.btn_negative: // 취소버튼 클릭시
+                customDialogListener.onNegativeClicked();
                 cancel();
                 break;
         }

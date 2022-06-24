@@ -34,10 +34,10 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/contentsTextView"
+                android:id="@+id/titleTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="내용"
+                android:text="제목"
                 android:textSize="24sp" />
 
             <RelativeLayout
@@ -51,23 +51,15 @@
                     android:layout_height="32dp"
                     android:layout_alignParentLeft="true"
                     android:src="@drawable/weather_icon_1" />
-<!--
-                <ImageView
-                    android:id="@+id/pictureExistsImageView"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_toRightOf="@+id/weatherImageView"
-                    android:src="@drawable/picture_128" />
--->
-                <TextView
-                    android:id="@+id/locationTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:text="전주시 덕진구"
-                    android:textSize="16sp" />
+                <!--
+                                <ImageView
+                                    android:id="@+id/pictureExistsImageView"
+                                    android:layout_width="32dp"
+                                    android:layout_height="32dp"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_toRightOf="@+id/weatherImageView"
+                                    android:src="@drawable/picture_128" />
+                -->
 
                 <TextView
                     android:id="@+id/dateTextView"
@@ -78,6 +70,13 @@
                     android:text="01월 01일"
                     android:textColor="#FF0000FF"
                     android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/contentsTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="내용"
+                    android:visibility="invisible" />
 
             </RelativeLayout>
 
