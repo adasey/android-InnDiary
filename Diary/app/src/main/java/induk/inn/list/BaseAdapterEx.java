@@ -104,6 +104,11 @@ public class BaseAdapterEx extends BaseAdapter {
         notifyDataSetChanged(); // notify 공지, 공지후 리스트뷰에게 넘겨준다.
     }
 
+    public void update(int index, NoteItem addData){
+        mData.set(index, addData);
+        notifyDataSetChanged();
+    }
+
     public void delete(int index){
         mData.remove(index);
         notifyDataSetChanged();

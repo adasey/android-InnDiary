@@ -1,4 +1,4 @@
-package induk.inn;
+package induk.inn.list;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -13,31 +13,39 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.Spinner;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+import android.widget.TextView;
 
 import java.util.Objects;
 
-public class AddDialog extends Dialog implements View.OnClickListener{
+import induk.inn.R;
 
-    private EditText contentEt;
+public class ListDialog extends Dialog implements View.OnClickListener{
+
+    int mode = 0; // 등록, 수정 구별용
+
+    private String title, content, date;
+
+    private TextView titleTv;
     private EditText titleEt;
+    private EditText contentEt;
+
 
     private DatePicker dateDp;
-    private int mMoodImage = R.drawable.smile3_48;
+    private int mMoodImage = 2;
 
     private Context mContext;
     private CustomDialogListener customDialogListener;
+
+    //상태 시크바
+    SeekBar seekBar;
 
     //날씨 스피너
     private Spinner spinner_weathers;
     String[] spinnerNames;
     int[] spinnerImages;
-    int selected_weather = R.drawable.weather_1;
+    int selected_weather = 0;
 
-    public AddDialog(Context mContext) {
+    public ListDialog(Context mContext) {
         super(mContext);
         this.mContext = mContext;
     }
@@ -62,8 +70,9 @@ public class AddDialog extends Dialog implements View.OnClickListener{
         Objects.requireNonNull(getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         // 커스텀 다이얼로그의 각 위젯들을 정의한다.
-        contentEt = (EditText) findViewById(R.id.et_content);
+        titleTv = (TextView) findViewById(R.id.tv_title);
         titleEt = (EditText) findViewById(R.id.et_title);
+        contentEt = (EditText) findViewById(R.id.et_content);
         dateDp = (DatePicker) findViewById(R.id.date_picker);
 
 
@@ -88,23 +97,7 @@ public class AddDialog extends Dialog implements View.OnClickListener{
         spinner_weathers.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                switch (spinner_weathers.getSelectedItemPosition()){
-                    case 0:
-                        selected_weather = R.drawable.weather_1;
-                        break;
-                    case 1:
-                        selected_weather = R.drawable.weather_3;
-                        break;
-                    case 2:
-                        selected_weather = R.drawable.weather_4;
-                        break;
-                    case 3:
-                        selected_weather = R.drawable.weather_5;
-                        break;
-                    case 4:
-                        selected_weather = R.drawable.weather_7;
-                        break;
-                }
+                selected_weather = spinner_weathers.getSelectedItemPosition();
             }
 
             @Override
@@ -118,7 +111,7 @@ public class AddDialog extends Dialog implements View.OnClickListener{
 
         //상태
         //===========================================================================
-        SeekBar seekBar = (SeekBar) findViewById(R.id.seekBar);
+        seekBar = (SeekBar) findViewById(R.id.seekBar);
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
@@ -132,25 +125,8 @@ public class AddDialog extends Dialog implements View.OnClickListener{
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
                 // 시크바 터치가 끝났을 때
-                switch(seekBar.getProgress()){
-                    case 0:
-                        mMoodImage = R.drawable.smile1_48;
-                        break;
-                    case 1:
-                        mMoodImage = R.drawable.smile2_48;
-                        break;
-                    case 2:
-                        mMoodImage = R.drawable.smile3_48;
-                        break;
-                    case 3:
-                        mMoodImage = R.drawable.smile4_48;
-                        break;
-                    case 4:
-                        mMoodImage = R.drawable.smile5_48;
-                        break;
-                }
+                mMoodImage = seekBar.getProgress();
             }
         });
         //===========================================================================
@@ -163,7 +139,39 @@ public class AddDialog extends Dialog implements View.OnClickListener{
         positiveButton.setOnClickListener(this);
         negativeButton.setOnClickListener(this);
         //===========================================================================
+        switch (mode){
+            case 1:
+                setDialog(title, content, date, mMoodImage, selected_weather);
+                break;
+        }
+    }
 
+    public void setMode(int mode, String title, String content, String date, int moodImage,int weatherImage){
+        this.mode = mode;
+        this.title = title;
+        this.content = content;
+        this.date = date;
+        mMoodImage = moodImage;
+        selected_weather = weatherImage;
+    }
+
+    private void setDialog(String title, String content, String date, int moodImage,int weatherImage){
+        titleTv.setText("수정하기");
+        titleEt.setText(title);
+        contentEt.setText(content);
+        String[] dateArr = date.split("-");
+        int year = Integer.parseInt(dateArr[0]);
+        int month = Integer.parseInt(dateArr[1]);
+        int days = Integer.parseInt(dateArr[2]);
+        dateDp.init(year, month-1, days, new DatePicker.OnDateChangedListener() {
+            @Override
+            public void onDateChanged(DatePicker datePicker, int i, int i1, int i2) {
+
+            }
+        });
+
+        seekBar.setProgress(moodImage);
+        spinner_weathers.setSelection(weatherImage);
     }
 
     // 버튼 리스너 설정
@@ -174,7 +182,7 @@ public class AddDialog extends Dialog implements View.OnClickListener{
                 // 변수에 EditText 값 저장
                 String content = contentEt.getText().toString();
                 String title = titleEt.getText().toString();
-                String date = dateDp.getYear() + "년 " + (dateDp.getMonth()+1) + "월 " + dateDp.getDayOfMonth() + "일";
+                String date = dateDp.getYear() + "-" + (dateDp.getMonth()+1) + "-" + dateDp.getDayOfMonth();
 
                 // 인터페이스의 함수를 호출하여 변수에 저장된 값들을 Activity로 전달
                 customDialogListener.onPositiveClicked(title, content, date, mMoodImage, selected_weather);

@@ -8,9 +8,10 @@
     android:layout_width="320dp"
     android:layout_height="wrap_content"
     android:background="@drawable/dialog_background_round"
-    tools:context=".list.AddDialog">
+    tools:context=".list.ListDialog">
 
     <TextView
+        android:id="@+id/tv_title"
         android:text="신규등록하기"
         android:textSize="20dp"
         android:layout_gravity="center_horizontal"
