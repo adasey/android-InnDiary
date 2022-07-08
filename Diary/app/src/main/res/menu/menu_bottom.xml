@@ -12,8 +12,8 @@
         android:id="@+id/tab2"
         app:showAsAction="ifRoom"
         android:enabled="true"
-        android:icon="@drawable/write_48"
-        android:title="작성"/>
+        android:icon="@drawable/calendar_48"
+        android:title="달력"/>
 
     <item
         android:id="@+id/tab3"

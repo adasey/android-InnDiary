@@ -124,7 +124,6 @@ public class FragMent1 extends Fragment {
 
                 int status = getStatusImage(item.mMoodImage);
                 int weather = getWeatherImage(item.mWeatherImage);
-                Toast.makeText(context, item.mSeq, Toast.LENGTH_SHORT).show();
                 if (status >= 0 && weather >= 0)
                     dialog.setMode(UPDATE_MODE, item.mTitle, item.mContents, item.mDate, status, weather);
 
@@ -315,7 +314,6 @@ public class FragMent1 extends Fragment {
                 diaryRepository.delete(listDiary.get(i));
             }*/
             for (int i = 0; i < size; i++) {
-
                 NoteItem noteItem = new NoteItem();
 
                 noteItem.mSeq = String.valueOf(listDiary.get(i).getSeq());

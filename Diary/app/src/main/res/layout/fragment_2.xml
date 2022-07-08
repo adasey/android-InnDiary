@@ -5,7 +5,12 @@
     android:layout_height="match_parent"
     android:layout_marginBottom="60dp"
     android:orientation="vertical"
-    tools:context=".FragMent2">
+    tools:context=".rest.FragMent2">
 
-
+    <ListView
+        android:id="@+id/list_view_rest"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:dividerHeight="0px"
+        android:divider="@color/white"/>
 </LinearLayout>
