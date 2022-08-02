@@ -20,8 +20,11 @@
         <entry key="..\:/Android/android-InnDiary-addon/Diary/app/src/main/res/layout/fragment_1.xml" value="0.1875" />
         <entry key="..\:/Android/android-InnDiary-addon/Diary/app/src/main/res/layout/note_item.xml" value="0.17806484295845998" />
         <entry key="..\:/Android/android-InnDiary-addon/Diary/app/src/main/res/layout/popup_add.xml" value="0.10597826086956522" />
+        <entry key="..\:/Diary/app/src/main/res/drawable/ic_add.xml" value="0.141" />
+        <entry key="..\:/Diary/app/src/main/res/drawable/item_color.xml" value="0.2985" />
+        <entry key="..\:/Diary/app/src/main/res/drawable/select_button.xml" value="0.141" />
         <entry key="..\:/Diary/app/src/main/res/layout/activity_main.xml" value="0.1875" />
-        <entry key="..\:/Diary/app/src/main/res/layout/fragment_1.xml" value="0.33" />
+        <entry key="..\:/Diary/app/src/main/res/layout/fragment_1.xml" value="0.1" />
         <entry key="..\:/Diary/app/src/main/res/layout/fragment_2.xml" value="0.36614583333333334" />
         <entry key="..\:/Diary/app/src/main/res/layout/fragment_login.xml" value="0.33" />
         <entry key="..\:/Diary/app/src/main/res/layout/note_item.xml" value="0.1" />

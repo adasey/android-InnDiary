@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
 import com.google.android.material.behavior.SwipeDismissBehavior;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +59,9 @@ public class FragMent1 extends Fragment {
         mData = new ArrayList<NoteItem>();
 
         imageIndexSetting();
-        dbSetting();
+        String date = getArguments().getString("list", "");
+        System.out.println("테스트 : " + date);
+        dbSetting(date);
 
         mAdapter = new BaseAdapterEx(view.getContext(), mData);
 
@@ -66,12 +69,11 @@ public class FragMent1 extends Fragment {
         mListView.setAdapter(mAdapter);
         registerForContextMenu(mListView);
 
-        Button btnAdd = view.findViewById(R.id.add_btn);
-        Button btnClr = view.findViewById(R.id.all_del_btn);
+        FloatingActionButton fabAdd = (FloatingActionButton) view.findViewById(R.id.add_fab);
 
         // 추가
         // ======================================================================
-        btnAdd.setOnClickListener(new View.OnClickListener() {
+        fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ListDialog dialog = new ListDialog(context);
@@ -198,15 +200,6 @@ public class FragMent1 extends Fragment {
         mListView.setOnTouchListener(touchListener);
         mListView.setOnScrollListener(touchListener.makeScrollListener());
         // =======================================================================
-        // 전체삭제
-        // ======================================================================
-        btnClr.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mAdapter.clear();
-            }
-        });
-        // ======================================================================
 
         return view;
     }
@@ -296,17 +289,16 @@ public class FragMent1 extends Fragment {
     }
 
 
-    public void dbSetting(){
-
+    public void dbSetting(String date){
         // db
-
         DiaryDatabase db = Room.databaseBuilder(getActivity().getApplicationContext(), DiaryDatabase.class, "db-diary")
                 .fallbackToDestructiveMigration() //스키마 버전 변경 가능
                 .allowMainThreadQueries() // 메인 스레드에서 DB에 IO를 가능하게 함
                 .build();
 
         diaryRepository = db.diaryRepository();
-        listDiary = diaryRepository.findAll();
+        if(date=="") listDiary = diaryRepository.findAll();
+        else listDiary = diaryRepository.findByDate(date);
 
         int size = listDiary.size();
         if (size > 0) {

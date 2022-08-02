@@ -5,8 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.MenuItem;;
+import android.widget.DatePicker;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationBarView;
@@ -21,6 +23,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -41,11 +44,15 @@ public class MainActivity extends AppCompatActivity {
     private FragmentTransaction transaction;
     private boolean isGetRest = false;
 
+    String currentFragment = "";
+
     Disposable backgroundTask;
 
     //뒤로가기 두번해서 종료
     private String mCurrentUrl;
     private long backBtnTime = 0;
+
+    DatePickerDialog datePickerDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +64,10 @@ public class MainActivity extends AppCompatActivity {
         fragMent1 = new FragMent1();
         fragMent2 = new FragMent2();
 
+        Bundle bundle = new Bundle(1);
+        bundle.putString("list", "");
+        currentFragment = "Fragment1";
+        fragMent1.setArguments(bundle);
         // 프래그먼트 초기화면
         transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.container, fragMent1).commitAllowingStateLoss();
@@ -159,16 +170,56 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch(item.getItemId()){
                     case R.id.tab1:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.container, fragMent1).commit();
+                        Bundle bundle = new Bundle(1);
+                        bundle.putString("list", "");
+                        fragMent1.setArguments(bundle);
+
+                        if (currentFragment == "Fragment1"){
+                            getSupportFragmentManager().beginTransaction().detach(fragMent1).commit();
+                            getSupportFragmentManager().beginTransaction().attach(fragMent1).commit();
+                        } else{
+                            currentFragment = "Fragment1";
+                            getSupportFragmentManager().beginTransaction().replace(R.id.container, fragMent1).commit();
+                        }
                         return true;
                     case R.id.tab2:
                         if (isGetRest) {
+                            currentFragment = "Fragment2";
                             getSupportFragmentManager().beginTransaction().replace(R.id.container, fragMent2).commit();
                         } else{
                             Toast.makeText(MainActivity.this, "공휴일 데이터를 받는 중입니다.", Toast.LENGTH_SHORT).show();
                         }
                         return true;
                     case R.id.tab3:
+                        Calendar calendar = Calendar.getInstance();
+                        int pYear = calendar.get(Calendar.YEAR);
+                        int pMonth = calendar.get(Calendar.MONTH);
+                        int pDay = calendar.get(Calendar.DAY_OF_MONTH);
+
+                        datePickerDialog = new DatePickerDialog(MainActivity.this, new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                                month = month+1;
+
+                                Bundle bundle = new Bundle(1);
+                                bundle.putString("list", year + "-" + month + "-" + day);
+                                fragMent1.setArguments(bundle);
+                                if (currentFragment == "Fragment1"){
+
+                                    getSupportFragmentManager().beginTransaction().detach(fragMent1).commit();
+                                    getSupportFragmentManager().beginTransaction().attach(fragMent1).commit();
+                                } else{
+                                    currentFragment = "Fragment1";
+                                    getSupportFragmentManager().beginTransaction().replace(R.id.container, fragMent1).commit();
+                                }
+
+
+
+
+
+                            }
+                        }, pYear, pMonth, pDay);
+                        datePickerDialog.show();
                         return true;
                 }
                 return false;

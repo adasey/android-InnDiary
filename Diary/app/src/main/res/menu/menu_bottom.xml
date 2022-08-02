@@ -19,6 +19,6 @@
         android:id="@+id/tab3"
         app:showAsAction="ifRoom"
         android:enabled="true"
-        android:icon="@drawable/graph_48"
-        android:title="통계"/>
+        android:icon="@drawable/search_48"
+        android:title="검색"/>
 </menu>

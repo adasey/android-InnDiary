@@ -17,6 +17,9 @@ public interface DiaryRepository {
     @Query("SELECT * FROM diary Where seq=:seq")
     Diary findById(int seq);
 
+    @Query("SELECT * FROM diary Where date=:date")
+    List<Diary> findByDate(String date);
+
     @Insert
     void insert(Diary diary);
 
