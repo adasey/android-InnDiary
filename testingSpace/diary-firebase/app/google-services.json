@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "434300556464",
+    "project_id": "lhs-diary-3b7b2",
+    "storage_bucket": "lhs-diary-3b7b2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:434300556464:android:db8b7edb4a6fdee8cdd775",
+        "android_client_info": {
+          "package_name": "inn.diary.firebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "434300556464-q1a0pv832ba6fmvs5i4v0i0ndmlv6ful.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCr4iM3Cw9FCz-mhmvAcAZkNnaL3gJZmJM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "434300556464-q1a0pv832ba6fmvs5i4v0i0ndmlv6ful.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
