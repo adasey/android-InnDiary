@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_todo"
+        android:enabled="true"
+        android:icon="@drawable/ic_checklist"
+        android:title="일정"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/menu_home"
+        android:enabled="true"
+        android:icon="@drawable/ic_calendar"
+        android:title="일기"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/menu_setting"
+        android:enabled="true"
+        android:icon="@drawable/ic_settings"
+        android:title="설정"
+        app:showAsAction="always"/>
+</menu>
