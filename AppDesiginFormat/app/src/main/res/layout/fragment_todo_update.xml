@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/custom_back"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="30dp"
+            android:fontFamily="@font/cafe24"
+            android:text="Title"
+            android:textColor="@color/custom_gray"
+            android:textSize="30dp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+            <EditText
+                android:id="@+id/todo_title_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="30dp"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/bg_carrot_right"
+                android:fontFamily="@font/cafe24air"
+                android:hint="Insert title"
+                android:padding="20dp"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
+            android:fontFamily="@font/cafe24"
+            android:text="Date and Time"
+            android:textColor="@color/custom_gray"
+            android:textSize="30dp" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/bg_carrot_right">
+
+            <EditText
+                android:id="@+id/todo_date_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_toLeftOf="@+id/select_date_button"
+                android:background="@drawable/bg_carrot_right"
+                android:clickable="false"
+                android:focusable="false"
+                android:fontFamily="@font/cafe24air"
+                android:hint="Insert date"
+
+                android:padding="20dp"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/select_date_button"
+                android:layout_width="wrap_content"
+                android:layout_height="65dp"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/bg_cactus_right"
+                android:elevation="3dp"
+                android:fontFamily="@font/cafe24"
+                android:padding="20dp"
+                android:text="select date" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/bg_carrot_right">
+
+            <EditText
+                android:id="@+id/todo_time_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_toLeftOf="@+id/select_time_button"
+                android:background="@drawable/bg_carrot_right"
+                android:clickable="false"
+                android:focusable="false"
+                android:fontFamily="@font/cafe24air"
+                android:hint="Insert time"
+                android:padding="20dp"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/select_time_button"
+                android:layout_width="wrap_content"
+                android:layout_height="65dp"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/bg_cactus_right"
+                android:elevation="3dp"
+                android:fontFamily="@font/cafe24"
+                android:padding="20dp"
+                android:text="select time" />
+        </RelativeLayout>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
+            android:fontFamily="@font/cafe24"
+            android:text="Content"
+            android:textColor="@color/custom_gray"
+            android:textSize="30dp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+            <EditText
+                android:id="@+id/todo_content_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="30dp"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/bg_carrot_right"
+                android:fontFamily="@font/cafe24air"
+                android:hint="Insert content"
+                android:padding="20dp"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+    </LinearLayout>
+
+
+</ScrollView>
