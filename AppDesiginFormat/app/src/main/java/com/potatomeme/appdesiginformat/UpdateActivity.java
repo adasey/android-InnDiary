@@ -11,7 +11,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.Toast;
 
+import com.potatomeme.appdesiginformat.entity.Diary;
+import com.potatomeme.appdesiginformat.entity.Todo;
+import com.potatomeme.appdesiginformat.helper.AppHelper;
 import com.potatomeme.appdesiginformat.helper.DbHelper;
 import com.potatomeme.appdesiginformat.ui.DiaryUpdateFragment;
 import com.potatomeme.appdesiginformat.ui.TodoUpdateFragment;
@@ -60,10 +64,20 @@ public class UpdateActivity extends AppCompatActivity {
         button_submit.setOnClickListener(view -> {
             switch (db_tag) {
                 case DbHelper.DIARY_TAG:
-                    DbHelper.updateDiary(diaryUpdateFragment.getDiary());
+                    Diary diary = diaryUpdateFragment.getDiary();
+                    if (!AppHelper.isDiaryAllSuccess(diary)){
+                        Toast.makeText(getApplicationContext(),"값을 입력해주세요",Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    DbHelper.updateDiary(diary);
                     break;
                 case DbHelper.TODO_TAG:
-                    DbHelper.updateTodo(todoUpdateFragment.getTodo());
+                    Todo todo = todoUpdateFragment.getTodo();
+                    if (!AppHelper.isTodoAllSuccess(todo)){
+                        Toast.makeText(getApplicationContext(),"값을 입력해주세요",Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    DbHelper.updateTodo(todo);
                     break;
             }
             finish();

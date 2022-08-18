@@ -23,6 +23,9 @@ public interface TodoRepository {
     @Query("SELECT * FROM todo Where date Like :date Order By date")
     List<Todo> findByDate(String date);
 
+    @Query("SELECT seq FROM todo ORDER BY seq DESC LIMIT 1")
+    int findRecentInsertedSeq();
+
     @Insert
     void insert(Todo todo);
 

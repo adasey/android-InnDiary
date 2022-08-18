@@ -1,6 +1,8 @@
 package com.potatomeme.appdesiginformat.helper;
 
 import com.potatomeme.appdesiginformat.R;
+import com.potatomeme.appdesiginformat.entity.Diary;
+import com.potatomeme.appdesiginformat.entity.Todo;
 
 import java.text.SimpleDateFormat;
 
@@ -36,4 +38,17 @@ public class AppHelper {
             R.drawable.ic_status_4,
             R.drawable.ic_status_5
     };
+
+    public static boolean isDiaryAllSuccess(Diary diary){
+        return !(diary.getDate().trim().isEmpty() ||
+                diary.getTitle().trim().isEmpty() ||
+                diary.getContent().trim().isEmpty());
+    }
+
+    public static boolean isTodoAllSuccess(Todo todo){
+        return !(todo.getDate().trim().isEmpty() ||
+                todo.getDate().length() != 12 ||
+                todo.getTitle().trim().isEmpty() ||
+                todo.getContent().trim().isEmpty());
+    }
 }

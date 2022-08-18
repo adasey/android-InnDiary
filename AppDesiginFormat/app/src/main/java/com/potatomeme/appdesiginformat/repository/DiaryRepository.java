@@ -22,6 +22,9 @@ public interface DiaryRepository {
     @Query("SELECT * FROM diary Where date=:date Order By date")
     List<Diary> findByDate(String date);
 
+    @Query("SELECT seq FROM diary ORDER BY seq DESC LIMIT 1")
+    int findRecentInsertedSeq();
+
     @Insert
     void insert(Diary diary);
 

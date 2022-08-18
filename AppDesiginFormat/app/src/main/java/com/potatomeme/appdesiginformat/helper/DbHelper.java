@@ -70,11 +70,13 @@ public class DbHelper {
         diaryRepository.delete(diary);
     }
 
-    /*public static void deleteAllDiary(){
+    public int findRecentDiaryInsertedSeq(){return diaryRepository.findRecentInsertedSeq();}
+
+    public static void deleteAllDiary(){
         for (Diary diary: findAllDiary()) {
             diaryRepository.delete(diary);
         }
-    }*/
+    }
 
     public static List<Todo> findAllTodo() {
         return todoRepository.findAll();
@@ -100,5 +102,20 @@ public class DbHelper {
         todoRepository.delete(todo);
     }
 
+    public static void deleteAllTodo(){
+        for (Todo todo: findAllTodo()) {
+            todoRepository.delete(todo);
+        }
+    }
 
+    public static int findRecentInsertedSeq(int db_tag){
+        switch (db_tag){
+            case DIARY_TAG:
+                return diaryRepository.findRecentInsertedSeq();
+            case TODO_TAG:
+                return todoRepository.findRecentInsertedSeq();
+            default:
+                return 0;
+        }
+    }
 }

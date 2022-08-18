@@ -14,7 +14,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 
+import com.potatomeme.appdesiginformat.entity.Diary;
 import com.potatomeme.appdesiginformat.entity.Todo;
+import com.potatomeme.appdesiginformat.helper.AppHelper;
 import com.potatomeme.appdesiginformat.helper.DbHelper;
 import com.potatomeme.appdesiginformat.ui.DiaryAddFragment;
 import com.potatomeme.appdesiginformat.ui.TodoAddFragment;
@@ -59,12 +61,26 @@ public class AddActivity extends AppCompatActivity {
         button_submit.setOnClickListener(view -> {
             switch (db_tag) {
                 case DbHelper.DIARY_TAG:
-                    DbHelper.insertDiary(diaryAddFragment.getDiary());
+                    Diary diary = diaryAddFragment.getDiary();
+                    if (!AppHelper.isDiaryAllSuccess(diary)){
+                        Toast.makeText(getApplicationContext(),"값을 입력해주세요",Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    DbHelper.insertDiary(diary);
                     break;
                 case DbHelper.TODO_TAG:
-                    DbHelper.insertTodo(todoAddFragment.getTodo());
+                    Todo todo = todoAddFragment.getTodo();
+                    if (!AppHelper.isTodoAllSuccess(todo)){
+                        Toast.makeText(getApplicationContext(),"값을 입력해주세요",Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    DbHelper.insertTodo(todo);
                     break;
             }
+            Intent intent = new Intent(getApplicationContext(),DetailActivity.class);
+            intent.putExtra("db_tag",db_tag);
+            intent.putExtra("seq",DbHelper.findRecentInsertedSeq(db_tag));
+            startActivity(intent);
             finish();
         });
     }
