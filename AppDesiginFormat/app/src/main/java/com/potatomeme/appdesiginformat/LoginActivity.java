@@ -1,36 +1,41 @@
 package com.potatomeme.appdesiginformat;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
-import android.view.View;
+import android.view.MenuItem;
 import android.widget.Button;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.potatomeme.appdesiginformat.helper.DbHelper;
 import com.potatomeme.appdesiginformat.helper.LoginHelper;
+import com.potatomeme.appdesiginformat.ui.DiaryDetailFragment;
+import com.potatomeme.appdesiginformat.ui.TodoDetailFragment;
 
-public class StartActivity extends AppCompatActivity {
+public class LoginActivity  extends AppCompatActivity {
 
+    Toolbar toolbar;
 
-    private static final String TAG = "StartActivity";
-    private static final int RC_SIGN_IN = 9001;
+    private static final String TAG = "LoginActivity";
+    private static final int RC_SIGN_IN = 9002;
 
     SharedPreferences pref;
     SharedPreferences.Editor editor;
@@ -40,35 +45,17 @@ public class StartActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_start);
+        setContentView(R.layout.activity_login);
+        init();
+    }
 
-        dbSetting();
+    private void init() {
+        toolbar = findViewById(R.id.login_toolBar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         pref = getSharedPreferences("pref", Activity.MODE_PRIVATE);
         editor = pref.edit();
-
-
-        //test용용
-       editor.putBoolean("isGuest",false);
-        editor.apply();
-
-        LoginHelper.setting();
-        LoginHelper.isGuest = pref.getBoolean("isGuest", false);
-
-
-        SignInButton signIn_button = findViewById(R.id.signin_button);
-        Button guest_button = findViewById(R.id.guest_button);
-
-
-        if (LoginHelper.isLogin || LoginHelper.isGuest) {
-            signIn_button.setVisibility(View.INVISIBLE);
-            guest_button.setVisibility(View.INVISIBLE);
-
-            Handler handler = new Handler();
-            handler.postDelayed(() -> {
-                startMain();
-            }, 1000);
-        }
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -76,16 +63,9 @@ public class StartActivity extends AppCompatActivity {
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-        signIn_button.setOnClickListener(view -> {
+        findViewById(R.id.signin_button).setOnClickListener(view -> {
             signIn();
         });
-        guest_button.setOnClickListener(view -> {
-            guestLogin();
-        });
-    }
-
-    private void dbSetting() {
-        DbHelper.dbSetting(getApplicationContext());
     }
 
     private void signIn() {
@@ -124,7 +104,7 @@ public class StartActivity extends AppCompatActivity {
                             LoginHelper.login();
                             editor.putBoolean("isGuest", LoginHelper.isGuest);
                             editor.apply();
-                            startMain();
+                            finish();
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
@@ -133,16 +113,14 @@ public class StartActivity extends AppCompatActivity {
                 });
     }
 
-    private void guestLogin() {
-        LoginHelper.useGuest();
-        editor.putBoolean("isGuest", LoginHelper.isGuest);
-        editor.apply();
-        startMain();
-    }
-
-    private void startMain() {
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        startActivity(intent);
-        finish();
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return false;
+        }
     }
 }

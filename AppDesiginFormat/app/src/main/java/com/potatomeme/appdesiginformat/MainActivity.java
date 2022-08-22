@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 
+import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -14,6 +16,7 @@ import com.google.android.material.navigation.NavigationBarView;
 import com.potatomeme.appdesiginformat.entity.Diary;
 import com.potatomeme.appdesiginformat.helper.AppHelper;
 import com.potatomeme.appdesiginformat.helper.DbHelper;
+import com.potatomeme.appdesiginformat.helper.LoginHelper;
 import com.potatomeme.appdesiginformat.ui.DiaryFragment;
 import com.potatomeme.appdesiginformat.ui.SettingFragment;
 import com.potatomeme.appdesiginformat.ui.TodoFragment;
@@ -42,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.main_toolBar);
         setSupportActionBar(toolbar);
 
-        dbSetting();
+
 
         fragmentManager = getSupportFragmentManager();
         diaryFragment = new DiaryFragment();
@@ -71,6 +74,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        Log.d("test","LoginHelper.isLogin : "+ LoginHelper.isLogin);
+        Log.d("test","LoginHelper.isGuest : "+LoginHelper.isGuest);
 
     }
 
@@ -79,8 +84,8 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
     }
 
-    private void dbSetting() {
-        DbHelper.dbSetting(getApplicationContext());
-    }
+
+
+
 
 }
