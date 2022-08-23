@@ -2,7 +2,6 @@ package com.potatomeme.appdesiginformat.ui;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,34 +10,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.CalendarView;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
-import com.potatomeme.appdesiginformat.AddActivity;
-import com.potatomeme.appdesiginformat.DetailActivity;
-import com.potatomeme.appdesiginformat.ListActivity;
-import com.potatomeme.appdesiginformat.LoginActivity;
 import com.potatomeme.appdesiginformat.MainActivity;
 import com.potatomeme.appdesiginformat.R;
-import com.potatomeme.appdesiginformat.adapter.TodoListAdapter;
-import com.potatomeme.appdesiginformat.entity.Todo;
-import com.potatomeme.appdesiginformat.helper.AppHelper;
 import com.potatomeme.appdesiginformat.helper.DbHelper;
 import com.potatomeme.appdesiginformat.helper.LoginHelper;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
 
 public class SettingFragment extends Fragment {
 
@@ -88,8 +70,7 @@ public class SettingFragment extends Fragment {
                 if (options.length == 2){
                     switch (i) {
                         case 0:
-                            Intent intent = new Intent(context, LoginActivity.class);
-                            startActivity(intent);
+                            mainActivity.loginDialogShow();
                             break;
                         case 1:
                             DbHelper.deleteAllDiary();
@@ -107,6 +88,8 @@ public class SettingFragment extends Fragment {
                             Toast.makeText(context, "로그아웃 완료 되셨습니다", Toast.LENGTH_SHORT).show();
                             optionsSetting();
                             break;
+                        case 1:
+
                         case 3:
                             DbHelper.deleteAllDiary();
                             DbHelper.deleteAllTodo();
@@ -118,7 +101,7 @@ public class SettingFragment extends Fragment {
         });
     }
 
-    private void optionsSetting() {
+    public void optionsSetting() {
         if (LoginHelper.isLogin) {
             options = new String[]{
                     "logout", "upload", "download", "delete all"
