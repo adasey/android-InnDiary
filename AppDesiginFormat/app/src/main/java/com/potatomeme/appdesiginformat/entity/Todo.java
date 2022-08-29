@@ -4,10 +4,12 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import com.google.firebase.database.Exclude;
+import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@IgnoreExtraProperties
 @Entity
 public class Todo {
     @PrimaryKey(autoGenerate = true)
@@ -23,6 +25,7 @@ public class Todo {
         this.title = title;
         this.content = content;
     }*/
+    public Todo(){}
 
     public Todo(String date, String title, String content) {
         this.seq = seq;

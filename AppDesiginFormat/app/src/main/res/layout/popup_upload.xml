@@ -2,28 +2,47 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="320dp"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_popup_back_round"
+    android:background="@drawable/bg_back_round"
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="25dp"
         android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp"
         android:fontFamily="@font/cafe24"
-        android:text="Date"
+        android:text="upload"
         android:textColor="@color/custom_gray"
         android:textSize="20dp" />
-
-    <DatePicker
-        android:id="@+id/date_picker"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:background="@drawable/bg_cactus_left"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/custom_gray"
-        android:calendarViewShown="false"
-        android:theme="@style/ThemeOverlay.AppCompat.Light" />
+
+        android:padding="20dp"
+        android:layout_marginRight="20dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:text="title :"
+            android:fontFamily="@font/cafe24"
+            android:textColor="@color/custom_back"
+            android:textSize="20dp"/>
+        <EditText
+            android:id="@+id/upload_title"
+            android:background="@drawable/bg_cactus_round"
+            android:textSize="20dp"
+            android:fontFamily="@font/cafe24"
+            android:textColor="@color/custom_back"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
 
     <RelativeLayout
+        android:layout_marginTop="30dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="130dp"

@@ -1,5 +1,9 @@
 package com.potatomeme.appdesiginformat.helper;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+
 import com.potatomeme.appdesiginformat.R;
 import com.potatomeme.appdesiginformat.entity.Diary;
 import com.potatomeme.appdesiginformat.entity.Todo;
@@ -50,5 +54,12 @@ public class AppHelper {
                 todo.getDate().length() != 12 ||
                 todo.getTitle().trim().isEmpty() ||
                 todo.getContent().trim().isEmpty());
+    }
+
+    public static boolean isConnected(Context context) {
+        ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = manager.getActiveNetworkInfo();
+
+        return networkInfo != null && networkInfo.isConnectedOrConnecting();
     }
 }

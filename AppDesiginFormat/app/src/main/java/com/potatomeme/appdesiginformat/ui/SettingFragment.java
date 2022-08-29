@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +18,9 @@ import androidx.fragment.app.Fragment;
 
 import com.potatomeme.appdesiginformat.MainActivity;
 import com.potatomeme.appdesiginformat.R;
+import com.potatomeme.appdesiginformat.helper.AppHelper;
 import com.potatomeme.appdesiginformat.helper.DbHelper;
-import com.potatomeme.appdesiginformat.helper.LoginHelper;
+import com.potatomeme.appdesiginformat.helper.FireBaseHelper;
 
 public class SettingFragment extends Fragment {
 
@@ -56,9 +56,6 @@ public class SettingFragment extends Fragment {
         super.onResume();
         optionsSetting();
 
-        Log.d("test","LoginHelper.isLogin : "+LoginHelper.isLogin);
-        Log.d("test","LoginHelper.isGuest : "+LoginHelper.isGuest);
-
         pref = context.getSharedPreferences("pref", Activity.MODE_PRIVATE);
         editor = pref.edit();
 
@@ -78,22 +75,30 @@ public class SettingFragment extends Fragment {
                             Toast.makeText(context, "삭제 완료 되셨습니다", Toast.LENGTH_SHORT).show();
                             break;
                     }
-                }else if (options.length == 4){
+                }else if (options.length == 3){
                     switch (i) {
                         case 0:
-                            LoginHelper.mAuth.signOut();
-                            LoginHelper.logout();
-                            editor.putBoolean("isGuest",LoginHelper.isGuest);
+                            FireBaseHelper.mAuth.signOut();
+                            FireBaseHelper.logout();
+                            editor.putBoolean("isGuest", FireBaseHelper.isGuest);
                             editor.apply();
                             Toast.makeText(context, "로그아웃 완료 되셨습니다", Toast.LENGTH_SHORT).show();
                             optionsSetting();
                             break;
                         case 1:
+                            //LoginHelper.getDiarySlot();
+                            if (AppHelper.isConnected(context)){
+                                mainActivity.selectDialogShow();
 
-                        case 3:
-                            DbHelper.deleteAllDiary();
-                            DbHelper.deleteAllTodo();
-                            Toast.makeText(context, "삭제 완료 되셨습니다", Toast.LENGTH_SHORT).show();
+                                //mainActivity.selectDialogShow();
+                            } else {
+                                Toast.makeText(context,"네트워크가 연결되어있지 않습니다. 네트워크를 확인해주세요",Toast.LENGTH_SHORT).show();
+                            }
+                            break;
+                        case 2:
+                            //DbHelper.deleteAllDiary();
+                            //DbHelper.deleteAllTodo();
+                            //Toast.makeText(context, "삭제 완료 되셨습니다", Toast.LENGTH_SHORT).show();
                             break;
                     }
                 }
@@ -102,11 +107,11 @@ public class SettingFragment extends Fragment {
     }
 
     public void optionsSetting() {
-        if (LoginHelper.isLogin) {
+        if (FireBaseHelper.isLogin) {
             options = new String[]{
-                    "logout", "upload", "download", "delete all"
+                    "logout", "upload & download", "delete all"
             };
-        } else if (LoginHelper.isGuest) {
+        } else if (FireBaseHelper.isGuest) {
             options = new String[]{
                     "login", "delete all"
             };

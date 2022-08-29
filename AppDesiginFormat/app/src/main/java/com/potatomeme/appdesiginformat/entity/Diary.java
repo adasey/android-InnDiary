@@ -4,10 +4,12 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import com.google.firebase.database.Exclude;
+import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@IgnoreExtraProperties
 @Entity
 public class Diary {
     @PrimaryKey(autoGenerate = true)
@@ -28,6 +30,8 @@ public class Diary {
         this.content = content;
         this.status = status;
     }*/
+
+    public Diary(){}
 
     public Diary(String date, int weather, int status, String title, String content) {
         this.seq = seq;

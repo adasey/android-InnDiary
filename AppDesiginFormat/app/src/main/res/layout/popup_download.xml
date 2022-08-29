@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="320dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_popup_back_round"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/cafe24"
+            android:layout_centerVertical="true"
+            android:text="download"
+            android:textColor="@color/custom_gray"
+            android:textSize="20dp" />
+
+        <Button
+            android:id="@+id/delete"
+            android:paddingLeft="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/bg_red_right"
+            android:drawableStart="@drawable/ic_delete"/>
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/bg_cactus_left"
+        android:orientation="horizontal"
+        android:padding="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:fontFamily="@font/cafe24"
+            android:text="title :"
+            android:textColor="@color/custom_back"
+            android:textSize="20dp" />
+
+        <EditText
+            android:id="@+id/slot_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:fontFamily="@font/cafe24"
+            android:background="@drawable/bg_cactus_round"
+            android:text="SampleTitle"
+            android:textColor="@color/custom_back"
+            android:textSize="20dp" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/bg_carrot_right">
+
+
+        <Button
+            android:id="@+id/cancel_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/ok_button"
+            android:background="@drawable/bg_carrot_right"
+            android:outlineProvider="none"
+            android:padding="10dp"
+            android:text="download" />
+
+        <Button
+            android:id="@+id/ok_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/bg_cactus_right"
+            android:elevation="3dp"
+            android:outlineProvider="none"
+            android:text="upload" />
+    </RelativeLayout>
+
+
+</LinearLayout>

@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -24,7 +25,7 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.potatomeme.appdesiginformat.helper.DbHelper;
-import com.potatomeme.appdesiginformat.helper.LoginHelper;
+import com.potatomeme.appdesiginformat.helper.FireBaseHelper;
 
 public class StartActivity extends AppCompatActivity {
 
@@ -49,18 +50,18 @@ public class StartActivity extends AppCompatActivity {
 
 
         //test용용
-       editor.putBoolean("isGuest",false);
+        editor.putBoolean("isGuest",false);
         editor.apply();
 
-        LoginHelper.setting();
-        LoginHelper.isGuest = pref.getBoolean("isGuest", false);
+        FireBaseHelper.setting();
+        FireBaseHelper.isGuest = pref.getBoolean("isGuest", false);
 
 
         SignInButton signIn_button = findViewById(R.id.signin_button);
         Button guest_button = findViewById(R.id.guest_button);
 
 
-        if (LoginHelper.isLogin || LoginHelper.isGuest) {
+        if (FireBaseHelper.isLogin || FireBaseHelper.isGuest) {
             signIn_button.setVisibility(View.INVISIBLE);
             guest_button.setVisibility(View.INVISIBLE);
 
@@ -114,28 +115,30 @@ public class StartActivity extends AppCompatActivity {
 
     private void firebaseAuthWithGoogle(String idToken) {
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
-        LoginHelper.mAuth.signInWithCredential(credential)
+        FireBaseHelper.mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
-                            LoginHelper.login();
-                            editor.putBoolean("isGuest", LoginHelper.isGuest);
+                            FireBaseHelper.login();
+                            editor.putBoolean("isGuest", FireBaseHelper.isGuest);
                             editor.apply();
+                            //LoginHelper.databaseSetting();
                             startMain();
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
+                            Toast.makeText(getApplicationContext(),"연결할수었습니다 데이터나 와이파이가 필요합니다.",Toast.LENGTH_LONG).show();
                         }
                     }
                 });
     }
 
     private void guestLogin() {
-        LoginHelper.useGuest();
-        editor.putBoolean("isGuest", LoginHelper.isGuest);
+        FireBaseHelper.useGuest();
+        editor.putBoolean("isGuest", FireBaseHelper.isGuest);
         editor.apply();
         startMain();
     }
