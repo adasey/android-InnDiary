@@ -24,7 +24,15 @@ import com.potatomeme.appdesiginformat.adapter.TodoListAdapter;
 import com.potatomeme.appdesiginformat.entity.Todo;
 import com.potatomeme.appdesiginformat.helper.AppHelper;
 import com.potatomeme.appdesiginformat.helper.DbHelper;
+import com.potatomeme.appdesiginformat.ui.Decorator.RestdayDecorator;
+import com.potatomeme.appdesiginformat.ui.Decorator.SaturdayDecorator;
+import com.potatomeme.appdesiginformat.ui.Decorator.SundayDecorator;
+import com.potatomeme.appdesiginformat.ui.Decorator.TodayDecorator;
+import com.prolificinteractive.materialcalendarview.CalendarDay;
+import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -32,7 +40,7 @@ public class TodoFragment extends Fragment {
 
     ViewGroup rootView;
 
-    CalendarView calendarView;
+    MaterialCalendarView calendarView;
     Button button_plus, button_seeall;
 
     ListView listView;
@@ -46,6 +54,12 @@ public class TodoFragment extends Fragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         mainActivity = (MainActivity) getActivity();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        calendarView.setSelectedDate(CalendarDay.today());
     }
 
     @Nullable
@@ -100,13 +114,35 @@ public class TodoFragment extends Fragment {
     }
 
     private void calendarSetting() {
+        ArrayList<String> restList = getArguments().getStringArrayList("restList");
+        ArrayList<CalendarDay> calendarDayArrayList = new ArrayList<>();
+
+        if(restList != null) {
+            int size = restList.size();
+
+            for (int i = 0; i < size; i++) {
+                int year = Integer.parseInt(restList.get(i).substring(0, 4));
+                int month = Integer.parseInt(restList.get(i).substring(4, 6)) - 1;
+                int day = Integer.parseInt(restList.get(i).substring(6));
+
+                calendarDayArrayList.add(CalendarDay.from(year,month,day));
+            }
+        }
+
         calendarView = rootView.findViewById(R.id.calendarview);
-        Date setdate = new Date(calendarView.getDate());
+        calendarView.addDecorators(new SaturdayDecorator(), new SundayDecorator(), new TodayDecorator(), new RestdayDecorator(calendarDayArrayList));
+        calendarView.setSelectedDate(CalendarDay.today());
+        Date setdate = calendarView.getSelectedDate().getDate();
+
         date = AppHelper.SIMPLE_DATE_FORMAT_1.format(setdate);
-        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+
+        calendarView.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
-            public void onSelectedDayChange(@NonNull CalendarView calendarView, int i, int i1, int i2) {
-                i1 += 1;
+            public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay calendarDay, boolean selected) {
+
+                int i = calendarDay.getYear();
+                int i1 = calendarDay.getMonth()+1;
+                int i2 = calendarDay.getDay();
                 date = i + "" + (i1 > 9 ? i1 : "0" + i1) + "" + (i2 > 9 ? i2 : "0" + i2);
                 listTodo = DbHelper.findTodo(date);
                 adapter.changeItems(listTodo);

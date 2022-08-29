@@ -50,4 +50,9 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:20.2.0'
     //DataBase
     implementation 'com.google.firebase:firebase-database:20.0.5'
+    //달력
+    implementation 'com.prolificinteractive:material-calendarview:1.4.3'
+    //rx자바
+    implementation 'io.reactivex.rxjava3:rxjava:3.1.4'
+    implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
 }

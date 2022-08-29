@@ -49,6 +49,7 @@ import com.potatomeme.appdesiginformat.ui.SettingFragment;
 import com.potatomeme.appdesiginformat.ui.TodoFragment;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -85,6 +86,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init() {
+        //휴일 정보
+        Intent intent = getIntent();
+        ArrayList<String> restList = intent.getStringArrayListExtra("list");
+
         toolbar = findViewById(R.id.main_toolBar);
         setSupportActionBar(toolbar);
 
@@ -93,6 +98,11 @@ public class MainActivity extends AppCompatActivity {
         todoFragment = new TodoFragment();
         settingFragment = new SettingFragment();
         fragmentManager.beginTransaction().replace(R.id.framelayout, todoFragment).commit();
+
+        Bundle bundle = new Bundle(1);
+        bundle.putStringArrayList("restList", restList);
+        todoFragment.setArguments(bundle);
+        diaryFragment.setArguments(bundle);
 
         navigationView = findViewById(R.id.bottom_navigation);
         navigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {

@@ -26,6 +26,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.potatomeme.appdesiginformat.helper.DbHelper;
 import com.potatomeme.appdesiginformat.helper.FireBaseHelper;
+import com.potatomeme.appdesiginformat.helper.RestHelper;
 
 public class StartActivity extends AppCompatActivity {
 
@@ -38,10 +39,13 @@ public class StartActivity extends AppCompatActivity {
 
     private GoogleSignInClient mGoogleSignInClient;
 
+    RestHelper restHelper; //휴일 헬퍼
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
+        restHelper = new RestHelper();
 
         dbSetting();
 
@@ -68,7 +72,7 @@ public class StartActivity extends AppCompatActivity {
             Handler handler = new Handler();
             handler.postDelayed(() -> {
                 startMain();
-            }, 1000);
+            }, 2500);
         }
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -145,6 +149,8 @@ public class StartActivity extends AppCompatActivity {
 
     private void startMain() {
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+
+        intent.putStringArrayListExtra("list", restHelper.getRestList());
         startActivity(intent);
         finish();
     }

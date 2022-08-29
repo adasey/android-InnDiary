@@ -18,4 +18,6 @@
     <color name="custom_weather_2">#9F9F9F</color>
     <color name="custom_weather_4">#1E4ACF</color>
     <color name="custom_weather_5">#000F3E</color>
+
+    <color name="red">#FF0000</color>
 </resources>
