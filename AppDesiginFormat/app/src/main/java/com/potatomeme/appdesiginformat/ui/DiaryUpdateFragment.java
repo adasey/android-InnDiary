@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TimePicker;
@@ -33,7 +34,7 @@ import com.potatomeme.appdesiginformat.helper.DbHelper;
 
 import java.util.ArrayList;
 
-public class DiaryUpdateFragment extends Fragment {
+public class DiaryUpdateFragment extends Fragment implements View.OnClickListener {
 
     ViewGroup rootView;
     UpdateActivity updateActivity;
@@ -63,6 +64,19 @@ public class DiaryUpdateFragment extends Fragment {
         weather_spinner = rootView.findViewById(R.id.diary_weather_spinner);
         date_edit = rootView.findViewById(R.id.diary_date_edit);
         content_edit = rootView.findViewById(R.id.diary_content_edit);
+
+        // 이미지 클릭 시 시크바 변경
+        ImageView status_1= rootView.findViewById(R.id.ic_status_1);
+        ImageView status_2= rootView.findViewById(R.id.ic_status_2);
+        ImageView status_3= rootView.findViewById(R.id.ic_status_3);
+        ImageView status_4= rootView.findViewById(R.id.ic_status_4);
+        ImageView status_5= rootView.findViewById(R.id.ic_status_5);
+
+        status_1.setOnClickListener(this);
+        status_2.setOnClickListener(this);
+        status_3.setOnClickListener(this);
+        status_4.setOnClickListener(this);
+        status_5.setOnClickListener(this);
 
         //dateDialog
         Dialog dateDialog = new Dialog(container.getContext());
@@ -116,5 +130,27 @@ public class DiaryUpdateFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         updateActivity = null;
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.ic_status_1:
+                status_seekbar.setProgress(0);
+                break;
+            case R.id.ic_status_2:
+                status_seekbar.setProgress(1);
+                break;
+            case R.id.ic_status_3:
+                status_seekbar.setProgress(2);
+                break;
+            case R.id.ic_status_4:
+                status_seekbar.setProgress(3);
+                break;
+            case R.id.ic_status_5:
+                status_seekbar.setProgress(4);
+                break;
+            default:
+        }
     }
 }

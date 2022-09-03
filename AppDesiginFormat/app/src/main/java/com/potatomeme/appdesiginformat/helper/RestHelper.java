@@ -34,6 +34,7 @@ public class RestHelper {
     final private String KEY="zAMPzR5%2Flm2aC5TiMYF%2Bmc0NcbK48YqlhthfFQ4b3Trl7%2BEEuRjp4bCJAvv6%2B5xZWXG7CZCctF8jnjT%2BJVbYjA%3D%3D";
     private Disposable backgroundTask;
     private static ArrayList<String> restList;
+    private static boolean isComplate=false;
 
     public RestHelper(){
         Observable<ArrayList<String>> source = Observable.fromCallable(
@@ -111,9 +112,14 @@ public class RestHelper {
                     @Override
                     public void accept(ArrayList<String> list) {
                         restList = list;
+                        isComplate = true;
                         backgroundTask.dispose();
                     }
                 });
+    }
+
+    public static boolean isComplate(){
+        return isComplate;
     }
 
     //현재 년도

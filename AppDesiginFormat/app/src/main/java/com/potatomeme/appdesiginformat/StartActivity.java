@@ -28,6 +28,9 @@ import com.potatomeme.appdesiginformat.helper.DbHelper;
 import com.potatomeme.appdesiginformat.helper.FireBaseHelper;
 import com.potatomeme.appdesiginformat.helper.RestHelper;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class StartActivity extends AppCompatActivity {
 
 
@@ -40,6 +43,14 @@ public class StartActivity extends AppCompatActivity {
     private GoogleSignInClient mGoogleSignInClient;
 
     RestHelper restHelper; //휴일 헬퍼
+
+    //로그인 버튼
+    SignInButton signIn_button;
+    Button guest_button;
+
+    //타이머
+    private Timer timerCell;
+    private final Handler handler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,26 +65,28 @@ public class StartActivity extends AppCompatActivity {
 
 
         //test용용
-        editor.putBoolean("isGuest",false);
-        editor.apply();
+        /*editor.putBoolean("isGuest",false);
+        editor.apply();*/
 
         FireBaseHelper.setting();
         FireBaseHelper.isGuest = pref.getBoolean("isGuest", false);
 
 
-        SignInButton signIn_button = findViewById(R.id.signin_button);
-        Button guest_button = findViewById(R.id.guest_button);
+        signIn_button = findViewById(R.id.signin_button);
+        guest_button = findViewById(R.id.guest_button);
 
 
-        if (FireBaseHelper.isLogin || FireBaseHelper.isGuest) {
-            signIn_button.setVisibility(View.INVISIBLE);
-            guest_button.setVisibility(View.INVISIBLE);
+        //타이머(휴일정보를 받아온 후 로그인 및 버튼 활성화)
+        timerCell = new Timer();
 
-            Handler handler = new Handler();
-            handler.postDelayed(() -> {
-                startMain();
-            }, 2500);
-        }
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                runTimer();
+            }
+        };
+        timerCell.schedule(timerTask, 1000, 100);
+
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -139,6 +152,28 @@ public class StartActivity extends AppCompatActivity {
                     }
                 });
     }
+
+    public void runTimer(){
+        if(restHelper.isComplate()) {
+            Runnable updater = new Runnable() {
+                public void run() {
+                    if (FireBaseHelper.isLogin || FireBaseHelper.isGuest) {
+                        signIn_button.setVisibility(View.INVISIBLE);
+                        guest_button.setVisibility(View.INVISIBLE);
+
+                        startMain();
+                    }else{
+                        guest_button.setVisibility(View.VISIBLE);
+                        signIn_button.setVisibility(View.VISIBLE);
+                    }
+                }
+            };
+            handler.post(updater);
+            timerCell.cancel();
+        }
+    }
+
+
 
     private void guestLogin() {
         FireBaseHelper.useGuest();
