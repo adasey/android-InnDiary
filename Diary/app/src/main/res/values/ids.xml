@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <!--  TODO(developer): REPLACE -->
-    <string name="kakao_app_id">REPLACE_ME</string>
-    <string name="kakao_client_token">48722e156e99c95eb8bc3dd977cf1fe0</string>
-</resources>
