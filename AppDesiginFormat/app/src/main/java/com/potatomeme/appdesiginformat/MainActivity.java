@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
     TodoFragment todoFragment;
     SettingFragment settingFragment;
 
-    Dialog loginDialog, selectDialog, slotDialog, uploadDialog, downloadDialog,deleteDialog;
+    Dialog loginDialog, selectDialog, slotDialog, uploadDialog, downloadDialog, deleteDialog;
     ProgressDialog progressDialog;
 
     SharedPreferences pref;
@@ -211,10 +211,12 @@ public class MainActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<DataSnapshot> task) {
                         if (task.getResult().getValue() == null) {
                             Log.d(TAG, "task.getResult().getValue() == null");
+                            for (int i = 0; i < 3; i++) {
+                                todoSlots[i] = null;
+                            }
                         } else {
                             for (int i = 0; i < 3; i++) {
                                 todoSlots[i] = task.getResult().child(FireBaseHelper.slotStrs[i]).getValue(TodoSlot.class);
-
                             }
                             for (TodoSlot test : todoSlots) {
                                 if (test == null) {
@@ -249,6 +251,9 @@ public class MainActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<DataSnapshot> task) {
                         if (task.getResult().getValue() == null) {
                             Log.d(TAG, "task.getResult().getValue() == null");
+                            for (int i = 0; i < 3; i++) {
+                                diarySlots[i] = null;
+                            }
                         } else {
                             for (int i = 0; i < 3; i++) {
                                 diarySlots[i] = task.getResult().child(FireBaseHelper.slotStrs[i]).getValue(DiarySlot.class);
@@ -435,7 +440,7 @@ public class MainActivity extends AppCompatActivity {
         downloadDialog.show();
 
         EditText text_title = downloadDialog.findViewById(R.id.slot_title);
-        if (tag == DbHelper.DIARY_TAG){
+        if (tag == DbHelper.DIARY_TAG) {
             text_title.setText(diarySlots[i].getTitle());
         } else {
             text_title.setText(todoSlots[i].getTitle());
@@ -443,27 +448,27 @@ public class MainActivity extends AppCompatActivity {
 
         TextView text_slot_title = downloadDialog.findViewById(R.id.slot_title);
         downloadDialog.findViewById(R.id.delete).setOnClickListener(view -> {
-            deleteDialogShow(tag,i);
+            deleteDialogShow(tag, i);
         });
 
         downloadDialog.findViewById(R.id.ok_button).setOnClickListener(view -> {
             //upload,갱신
-            if (tag == DbHelper.DIARY_TAG){
-                saveDiaryData(i,text_title.getText().toString());
+            if (tag == DbHelper.DIARY_TAG) {
+                saveDiaryData(i, text_title.getText().toString());
             } else {
-                saveTodoData(i,text_title.getText().toString());
+                saveTodoData(i, text_title.getText().toString());
             }
         });
         downloadDialog.findViewById(R.id.cancel_button).setOnClickListener(view -> {
             //download
-            if (tag == DbHelper.DIARY_TAG){
+            if (tag == DbHelper.DIARY_TAG) {
                 DbHelper.deleteAllDiary();
-                for (Diary diary : diarySlots[i].getDiaryList()){
+                for (Diary diary : diarySlots[i].getDiaryList()) {
                     DbHelper.insertDiary(diary);
                 }
             } else {
                 DbHelper.deleteAllTodo();
-                for (Todo todo : todoSlots[i].getTodoList()){
+                for (Todo todo : todoSlots[i].getTodoList()) {
                     DbHelper.insertTodo(todo);
                 }
             }
@@ -473,25 +478,29 @@ public class MainActivity extends AppCompatActivity {
 
     private void deleteDialogShow(int tag, int i) {
         deleteDialog.show();
-        deleteDialog.findViewById(R.id.ok_button).setOnClickListener(view -> {removeData(tag,i);});
-        deleteDialog.findViewById(R.id.cancel_button).setOnClickListener(view -> {deleteDialog.dismiss();});
+        deleteDialog.findViewById(R.id.ok_button).setOnClickListener(view -> {
+            removeData(tag, i);
+        });
+        deleteDialog.findViewById(R.id.cancel_button).setOnClickListener(view -> {
+            deleteDialog.dismiss();
+        });
     }
 
-    private void removeData(int tag,int i) {
+    private void removeData(int tag, int i) {
         progressDialog.setMessage("data 삭제중");
         progressDialog.show();
 
-        FireBaseHelper.userRef.child(tag == DbHelper.DIARY_TAG?"diarySlot":"todoSlot").child(FireBaseHelper.slotStrs[i]).setValue(null)
+        FireBaseHelper.userRef.child(tag == DbHelper.DIARY_TAG ? "diarySlot" : "todoSlot").child(FireBaseHelper.slotStrs[i]).setValue(null)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         progressDialog.dismiss();
                         deleteDialog.dismiss();
                         downloadDialog.dismiss();
-                        if(tag==DbHelper.DIARY_TAG){
+                        if (tag == DbHelper.DIARY_TAG) {
                             getDiaryData();
                             Log.d(TAG, "DiarySlot 삭제 성공.");
-                        }else{
+                        } else {
                             getTodoData();
                             Log.d(TAG, "TodoSlot 삭제 성공.");
                         }
@@ -502,9 +511,9 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         progressDialog.dismiss();
-                        if(tag==DbHelper.DIARY_TAG){
+                        if (tag == DbHelper.DIARY_TAG) {
                             Log.e(TAG, "DiarySlot 삭제 실패.");
-                        }else{
+                        } else {
                             Log.e(TAG, "TodoSlot 삭제 실패.");
                         }
                         Toast.makeText(MainActivity.this, "저장 실패,네트워크를 확인해주세요", Toast.LENGTH_SHORT).show();
@@ -558,5 +567,5 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
     }
-    
+
 }

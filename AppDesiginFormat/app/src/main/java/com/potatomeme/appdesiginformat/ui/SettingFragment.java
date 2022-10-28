@@ -89,16 +89,14 @@ public class SettingFragment extends Fragment {
                             //LoginHelper.getDiarySlot();
                             if (AppHelper.isConnected(context)){
                                 mainActivity.selectDialogShow();
-
-                                //mainActivity.selectDialogShow();
                             } else {
                                 Toast.makeText(context,"네트워크가 연결되어있지 않습니다. 네트워크를 확인해주세요",Toast.LENGTH_SHORT).show();
                             }
                             break;
                         case 2:
-                            //DbHelper.deleteAllDiary();
-                            //DbHelper.deleteAllTodo();
-                            //Toast.makeText(context, "삭제 완료 되셨습니다", Toast.LENGTH_SHORT).show();
+                            DbHelper.deleteAllDiary();
+                            DbHelper.deleteAllTodo();
+                            Toast.makeText(context, "삭제 완료 되셨습니다", Toast.LENGTH_SHORT).show();
                             break;
                     }
                 }
